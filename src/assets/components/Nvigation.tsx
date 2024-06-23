@@ -21,12 +21,12 @@ function Nvigation({ onCategoryChange }) {
         <img
           src={Series}
           alt="Series"
-          onClick={() => onCategoryChange("Series")}
+          onClick={() => onCategoryChange("TV Series")}
         />
         <img
           src={Bookmark}
           alt="Bookmark"
-          onClick={() => onCategoryChange("Bookmark")}
+          onClick={() => onCategoryChange("Bookmarked Movies")}
         />
       </Categorys>
       <img className="avatar" src={Avatar} alt="Avatar" />
