@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Data from "/src/data.json"; // Adjust the path to match your project structure
 import Movies from "/public/assets/icon-nav-movies.svg";
 import bookmarkempty from "/public/assets/icon-bookmark-empty.svg";
-
+import Series from "/public/assets/icon-nav-tv-series.svg";
 function MOVElibrary() {
   const [Moviedata, setMoviedata] = useState(Data.slice(5)); // Initialize state with Data excluding the first five items
 
@@ -20,7 +20,10 @@ function MOVElibrary() {
             </MovieDiv>
             <Information>
               <p>{item.year}</p>
-              <img src={Movies} alt="" />
+              <img
+                src={item.category === "Movie" ? Movies : Series}
+                alt={item.category}
+              />
               <p>{item.category}</p>
               <p>{item.rating}</p>
             </Information>

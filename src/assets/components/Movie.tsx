@@ -1,40 +1,59 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import Data from "/src/data.json";
 import Movies from "/public/assets/icon-nav-movies.svg";
+import Series from "/public/assets/icon-nav-tv-series.svg";
 import bookmarkempty from "/public/assets/icon-bookmark-empty.svg";
+
 function Movie({ category }) {
-  const [Moviedata, setMoviedata] = useState(Data.slice(0, 5)); // Slice the first five items
+  const [Moviedata, setMoviedata] = useState(Data.slice(0, 5));
+  const sliderRef = useRef(null);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setMoviedata((prevData) => {
+        const [first, ...rest] = prevData;
+        return [...rest, first];
+      });
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <MainDiv>
       <p>{category}</p>
-      <MovieGrid>
-        {Moviedata.map((item, index) => (
-          <MovieDiv
-            key={index}
-            backgroundImage={item.thumbnail.trending?.small}
-          >
-            <div className="bookmark">
-              <img src={bookmarkempty} alt="" />
-            </div>
-
-            <Textmovie>
-              <div className="maintext">
-                <p>{item.year}</p>
-                <img src={Movies} alt="" />
-                <p>{item.category}</p>
-
-                <p>{item.rating}</p>
+      <SliderWrapper ref={sliderRef}>
+        <MovieGrid>
+          {Moviedata.map((item, index) => (
+            <MovieDiv
+              key={index}
+              backgroundImage={item.thumbnail.trending?.small}
+            >
+              <div className="bookmark">
+                <img src={bookmarkempty} alt="" />
               </div>
 
-              <div>
-                <h2>{item.title}</h2>
-              </div>
-            </Textmovie>
-          </MovieDiv>
-        ))}
-      </MovieGrid>
+              <Textmovie>
+                <div className="maintext">
+                  <p>{item.year}</p>
+                  <img
+                    src={item.category === "Movie" ? Movies : Series}
+                    alt={item.category}
+                  />
+                  <p>{item.category}</p>
+
+                  <p>{item.rating}</p>
+                </div>
+
+                <div>
+                  <h2>{item.title}</h2>
+                </div>
+              </Textmovie>
+            </MovieDiv>
+          ))}
+        </MovieGrid>
+      </SliderWrapper>
     </MainDiv>
   );
 }
@@ -53,18 +72,20 @@ const MainDiv = styled.div`
   }
 `;
 
+const SliderWrapper = styled.div`
+  overflow: hidden;
+  width: 100%;
+`;
+
 const MovieGrid = styled.div`
-  max-width: 240px;
   display: flex;
   gap: 20px;
+  transition: transform 1s ease-in-out;
 `;
 
 const MovieDiv = styled.div`
-  width: 280px;
+  min-width: 280px;
   height: 140px;
-
-  align-items: center;
-
   background-image: url(${(props) => props.backgroundImage});
   background-size: cover;
   background-position: center;
@@ -72,7 +93,6 @@ const MovieDiv = styled.div`
   color: #fff;
   .bookmark {
     margin-left: 200px;
-
     align-items: center;
     display: flex;
     justify-content: center;
@@ -83,6 +103,7 @@ const MovieDiv = styled.div`
     background-color: gray;
   }
 `;
+
 const Textmovie = styled.div`
   padding: 10px;
   display: flex;
