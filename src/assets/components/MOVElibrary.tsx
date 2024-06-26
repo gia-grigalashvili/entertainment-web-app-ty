@@ -4,18 +4,31 @@ import Data from "/src/data.json"; // Adjust the path to match your project stru
 import Movies from "/public/assets/icon-nav-movies.svg";
 import bookmarkempty from "/public/assets/icon-bookmark-empty.svg";
 import Series from "/public/assets/icon-nav-tv-series.svg";
-function MOVElibrary() {
+import bookmarkfull from "/public/assets/icon-bookmark-full.svg";
+function MOVElibrary({ category }) {
   const [Moviedata, setMoviedata] = useState(Data.slice(5)); // Initialize state with Data excluding the first five items
+  const [showBookmark, setShowBookmark] = useState(
+    Array(Moviedata.length).fill(false)
+  );
+
+  const toggleBookmark = (index) => {
+    const newShowBookmark = [...showBookmark];
+    newShowBookmark[index] = !newShowBookmark[index];
+    setShowBookmark(newShowBookmark);
+  };
 
   return (
     <MainDiv>
-      <p>hello</p>
+      <p className="cate">{category}</p>
       <MovieGrid>
         {Moviedata.map((item, index) => (
           <div key={index}>
             <MovieDiv backgroundImage={item.thumbnail?.regular?.small}>
-              <div className="bookmark">
-                <img src={bookmarkempty} alt="" />
+              <div onClick={() => toggleBookmark(index)} className="bookmark">
+                <img
+                  src={showBookmark[index] ? bookmarkfull : bookmarkempty}
+                  alt=""
+                />
               </div>
             </MovieDiv>
             <Information>
@@ -38,16 +51,15 @@ function MOVElibrary() {
 const MainDiv = styled.div`
   display: flex;
   flex-direction: column;
-
+  justify-content: center;
   padding: 20px;
   gap: 20px;
-  p {
+  .cate {
     color: var(--Pure-White, #fff);
     font-family: Outfit;
-    font-size: 11px;
-    font-style: normal;
+    font-size: 20px;
     font-weight: 400;
-    line-height: normal;
+    letter-spacing: -0.312px;
   }
 `;
 
@@ -55,7 +67,7 @@ const MovieGrid = styled.div`
   max-width: 164px;
   display: grid;
   grid-template-columns: 1fr 2fr;
-  gap: 20px;
+  gap: 30px;
   h1 {
     color: var(--Pure-White, #fff);
     font-family: Outfit;
@@ -81,22 +93,34 @@ const MovieDiv = styled.div`
     align-items: center;
     display: flex;
     justify-content: center;
-    margin-top: 20px;
+
     width: 22px;
     height: 22px;
     border-radius: 50px;
     background-color: gray;
+    img {
+      width: 10px;
+      height: px;
+    }
   }
 `;
 
 const Information = styled.div`
   display: flex;
   align-items: center;
-
+  margin-top: 10px;
   gap: 5px;
   img {
     width: 10px;
     height: 10px;
+  }
+  p {
+    color: var(--Pure-White, #fff);
+    font-family: Outfit;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
   }
 `;
 export default MOVElibrary;

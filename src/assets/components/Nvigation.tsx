@@ -12,7 +12,11 @@ function Nvigation({ onCategoryChange }) {
     <Maindiv>
       <img src={Logo} alt="Logo" />
       <Categorys>
-        <img src={Home} alt="Home" onClick={() => onCategoryChange("Home")} />
+        <img
+          src={Home}
+          alt="Home"
+          onClick={() => onCategoryChange("Recommended for you", "Trending")}
+        />
         <img
           src={Movies}
           alt="Movies"
@@ -33,6 +37,7 @@ function Nvigation({ onCategoryChange }) {
     </Maindiv>
   );
 }
+
 const Maindiv = styled.div`
   width: 100%;
   display: flex;
@@ -46,8 +51,10 @@ const Maindiv = styled.div`
     height: 34px;
   }
 `;
+
 const Categorys = styled.div`
   display: flex;
   gap: 24px;
 `;
+
 export default Nvigation;

@@ -5,7 +5,7 @@ import Movies from "/public/assets/icon-nav-movies.svg";
 import Series from "/public/assets/icon-nav-tv-series.svg";
 import bookmarkempty from "/public/assets/icon-bookmark-empty.svg";
 
-function Movie({ category }) {
+function Movie({ category, subCategory }) {
   const [Moviedata, setMoviedata] = useState(Data.slice(0, 5));
   const sliderRef = useRef(null);
 
@@ -22,7 +22,7 @@ function Movie({ category }) {
 
   return (
     <MainDiv>
-      <p>{category}</p>
+      <p>{subCategory}</p>
       <SliderWrapper ref={sliderRef}>
         <MovieGrid>
           {Moviedata.map((item, index) => (
