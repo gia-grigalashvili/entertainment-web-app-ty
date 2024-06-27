@@ -6,39 +6,48 @@ import Bookmark from "/public/assets/icon-nav-bookmark.svg";
 import Home from "/public/assets/icon-nav-home.svg";
 import Series from "/public/assets/icon-nav-tv-series.svg";
 import Avatar from "/public/assets/image-avatar.png";
+import { Link } from "react-router-dom";
 
-function Nvigation({ onCategoryChange }) {
+function Navigation({ onCategoryChange }) {
   return (
-    <Maindiv>
+    <MainDiv>
       <img src={Logo} alt="Logo" />
-      <Categorys>
-        <img
-          src={Home}
-          alt="Home"
-          onClick={() => onCategoryChange("Recommended for you", "Trending")}
-        />
-        <img
-          src={Movies}
-          alt="Movies"
-          onClick={() => onCategoryChange("Movies")}
-        />
-        <img
-          src={Series}
-          alt="Series"
-          onClick={() => onCategoryChange("TV Series")}
-        />
-        <img
-          src={Bookmark}
-          alt="Bookmark"
-          onClick={() => onCategoryChange("Bookmarked Movies")}
-        />
-      </Categorys>
+      <Categories>
+        <Link to="/">
+          <img
+            src={Home}
+            alt="Home"
+            onClick={() => onCategoryChange("Recommended for you", "Trending")}
+          />
+        </Link>
+        <Link to="/movie">
+          <img
+            src={Movies}
+            alt="Movies"
+            onClick={() => onCategoryChange("Movies")}
+          />
+        </Link>
+        <Link to="/series">
+          <img
+            src={Series}
+            alt="Series"
+            onClick={() => onCategoryChange("TV Series")}
+          />
+        </Link>
+        <Link to="/bookmark">
+          <img
+            src={Bookmark}
+            alt="Bookmark"
+            onClick={() => onCategoryChange("Bookmarked Movies")}
+          />
+        </Link>
+      </Categories>
       <img className="avatar" src={Avatar} alt="Avatar" />
-    </Maindiv>
+    </MainDiv>
   );
 }
 
-const Maindiv = styled.div`
+const MainDiv = styled.div`
   width: 100%;
   display: flex;
   padding: 10px;
@@ -52,9 +61,9 @@ const Maindiv = styled.div`
   }
 `;
 
-const Categorys = styled.div`
+const Categories = styled.div`
   display: flex;
   gap: 24px;
 `;
 
-export default Nvigation;
+export default Navigation;

@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import Login from "./assets/components/Login";
-import Nvigation from "./assets/components/Nvigation";
+import Navigation from "./assets/components/Nvigation";
 import Searchinput from "./assets/components/Searchinput";
 import Movie from "./assets/components/Movie";
 import MOVElibrary from "./assets/components/MOVElibrary";
+import Movieee from "./assets/components/Movieee"; // Ensure this component exists and is correctly implemented
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -22,12 +24,36 @@ function App() {
   return (
     <>
       {isLoggedIn ? (
-        <>
-          <Nvigation onCategoryChange={handleCategoryChange} />
+        <BrowserRouter>
+          <Navigation onCategoryChange={handleCategoryChange} />
           <Searchinput />
-          <Movie category={selectedCategory} subCategory={subCategory} />
-          <MOVElibrary category={selectedCategory} subCategory={subCategory} />
-        </>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <>
+                  <Movie
+                    category={selectedCategory}
+                    subCategory={subCategory}
+                  />
+                  <MOVElibrary
+                    category={selectedCategory}
+                    subCategory={subCategory}
+                  />
+                </>
+              }
+            />
+            <Route
+              path="/movie"
+              element={
+                <Movieee
+                  category={selectedCategory}
+                  subCategory={subCategory}
+                />
+              }
+            />
+          </Routes>
+        </BrowserRouter>
       ) : (
         <Login onLoginSuccess={handleLoginSuccess} />
       )}
