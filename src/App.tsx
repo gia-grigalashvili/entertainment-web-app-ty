@@ -120,7 +120,6 @@ const MainStyle = styled.div`
   @media (min-width: 1440px) {
     display: flex;
     padding: 30px;
-    gap: 30px;
   }
 `;
 

@@ -35,7 +35,7 @@ const Movie: React.FC<Props> = ({
   const sliderRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setMoviedata(Data.slice(0, 5)); // Initialize Moviedata with Data prop
+    setMoviedata(Data.slice(0, 5));
 
     const interval = setInterval(() => {
       setMoviedata((prevData) => {
@@ -57,7 +57,10 @@ const Movie: React.FC<Props> = ({
               key={index}
               backgroundImage={item.thumbnail.trending?.small}
             >
-              <div onClick={() => toggleBookmark(index)} className="bookmark">
+              <div
+                onClick={() => toggleBookmark(item.title)}
+                className="bookmark"
+              >
                 <img
                   src={item.isBookmarked ? bookmarkfull : bookmarkempty}
                   alt=""

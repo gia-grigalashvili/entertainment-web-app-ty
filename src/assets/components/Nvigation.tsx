@@ -72,11 +72,12 @@ const MainDiv = styled.div`
   align-items: center;
   background: #161d2f;
   justify-content: space-between;
+
   @media (min-width: 1440px) {
     flex-direction: column;
     height: 900px;
     border-radius: 20px;
-    width: 96px;
+    width: 96px; /* Ensure consistent width */
   }
 
   img {
@@ -101,7 +102,7 @@ const Categories = styled.div`
 
   @media (min-width: 1440px) {
     flex-direction: column;
-    display: flex;
+    overflow: hidden;
     gap: 30px;
   }
 `;
