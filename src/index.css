@@ -9,7 +9,7 @@ body {
   background: #10141e;
   display: flex;
   flex-direction: column;
-
+  overflow-x: hidden;
   justify-content: center;
   font-family: Outfit;
   margin-top: 20px;

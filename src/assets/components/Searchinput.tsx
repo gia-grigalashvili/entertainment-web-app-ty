@@ -1,14 +1,32 @@
+import { useState, ChangeEvent } from "react";
 import styled from "styled-components";
-import Search from "/public/assets/icon-search.svg";
+import SearchIcon from "/public/assets/icon-search.svg";
 
-function Searchinput() {
+interface Props {
+  onSearch: (query: string) => void;
+}
+
+const Searchinput: React.FC<Props> = ({ onSearch }) => {
+  const [query, setQuery] = useState<string>("");
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setQuery(value);
+    onSearch(value);
+  };
+
   return (
     <InputWrapper>
-      <img src={Search} alt="Search Icon" />
-      <StyledInput type="text" placeholder="Search..." />
+      <img src={SearchIcon} alt="Search Icon" />
+      <StyledInput
+        type="text"
+        placeholder="Search..."
+        value={query}
+        onChange={handleInputChange}
+      />
     </InputWrapper>
   );
-}
+};
 
 const InputWrapper = styled.div`
   display: flex;

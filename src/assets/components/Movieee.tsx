@@ -1,23 +1,35 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import Data from "/src/data.json"; // Adjust the path to match your project structure
-import Movies from "/public/assets/icon-nav-movies.svg";
+import MoviesIcon from "/public/assets/icon-nav-movies.svg";
 import bookmarkempty from "/public/assets/icon-bookmark-empty.svg";
 import bookmarkfull from "/public/assets/icon-bookmark-full.svg";
 
-function Movieee({ category }) {
-  const movieData = Data.filter((item) => item.category === "Movie");
-  const [Moviedata, setMoviedata] = useState(movieData.slice(5));
-  const [showBookmark, setShowBookmark] = useState(
-    Array(Moviedata.length).fill(false)
-  );
-
-  const toggleBookmark = (index) => {
-    const newShowBookmark = [...showBookmark];
-    newShowBookmark[index] = !newShowBookmark[index];
-    setShowBookmark(newShowBookmark);
+interface MovieData {
+  title: string;
+  year: number;
+  category: string;
+  rating: number;
+  thumbnail?: {
+    regular?: {
+      small: string;
+    };
   };
+  isBookmarked: boolean;
+}
 
+interface Props {
+  category: string;
+  Moviedata: MovieData[];
+  showBookmark: boolean[];
+  toggleBookmark: (index: number) => void;
+}
+
+const Movieee: React.FC<Props> = ({
+  category,
+  Moviedata,
+
+  toggleBookmark,
+}) => {
   return (
     <MainDiv>
       <p className="cate">{category}</p>
@@ -25,16 +37,19 @@ function Movieee({ category }) {
         {Moviedata.map((item, index) => (
           <div key={index}>
             <MovieDiv backgroundImage={item.thumbnail?.regular?.small}>
-              <div onClick={() => toggleBookmark(index)} className="bookmark">
+              <div
+                onClick={() => toggleBookmark(item.title)}
+                className="bookmark"
+              >
                 <img
-                  src={showBookmark[index] ? bookmarkfull : bookmarkempty}
+                  src={item.isBookmarked ? bookmarkfull : bookmarkempty}
                   alt=""
                 />
               </div>
             </MovieDiv>
             <Information>
               <p>{item.year}</p>
-              <img src={Movies} alt={item.category} />
+              <img src={MoviesIcon} alt={item.category} />
               <p>{item.category}</p>
               <p>{item.rating}</p>
             </Information>
@@ -44,7 +59,7 @@ function Movieee({ category }) {
       </MovieGrid>
     </MainDiv>
   );
-}
+};
 
 const MainDiv = styled.div`
   display: flex;
@@ -52,6 +67,7 @@ const MainDiv = styled.div`
   justify-content: center;
   padding: 20px;
   gap: 20px;
+
   .cate {
     color: var(--Pure-White, #fff);
     font-family: Outfit;
@@ -64,7 +80,7 @@ const MainDiv = styled.div`
 const MovieGrid = styled.div`
   max-width: 164px;
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 1fr 3fr;
   gap: 30px;
   h1 {
     color: var(--Pure-White, #fff);
@@ -74,31 +90,61 @@ const MovieGrid = styled.div`
     font-weight: 400;
     line-height: normal;
     margin-top: 4px;
+    @media (min-width: 1440px) {
+      font-size: 18px;
+    }
+  }
+  @media (min-width: 750px) {
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 20px;
+  }
+  @media (min-width: 1440px) {
+    grid-template-columns: 1fr 2fr 1fr 1fr;
+    gap: 50px;
   }
 `;
 
-const MovieDiv = styled.div`
+const MovieDiv = styled.div<{ backgroundImage?: string }>`
   width: 144px;
   height: 110px;
   background-image: url(${(props) => props.backgroundImage});
   background-size: cover;
   background-position: center;
   border-radius: 8px;
+  position: relative;
   color: #fff;
+  @media (min-width: 750px) {
+    width: 245px;
+    padding-top: 10px;
+    height: 150px;
+  }
+  @media (min-width: 1440px) {
+    max-width: 100%;
+    padding-top: 10px;
+    height: 190px;
+  }
   .bookmark {
-    margin-left: 120px;
-
-    align-items: center;
-    display: flex;
-    justify-content: center;
-
+    position: absolute;
+    top: 10px;
+    right: 10px;
     width: 22px;
     height: 22px;
-    border-radius: 50px;
+    border-radius: 50%;
     background-color: gray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     img {
       width: 10px;
-      height: px;
+      height: 10px;
+      @media (min-width: 1440px) {
+        width: 12px;
+        height: 12px;
+      }
+    }
+    @media (min-width: 1440px) {
+      width: 33px;
+      height: 33px;
     }
   }
 `;
@@ -119,6 +165,9 @@ const Information = styled.div`
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    @media (min-width: 1440px) {
+      font-size: 13px;
+    }
   }
 `;
 
