@@ -9,7 +9,7 @@ interface MovieData {
   title: string;
   year: number;
   category: string;
-  rating: number;
+  rating: string; // Ensure this is string
   thumbnail: {
     trending?: {
       small: string;
@@ -20,9 +20,8 @@ interface MovieData {
 
 interface Props {
   subCategory: string;
-  toggleBookmark: (index: number) => void;
-  showBookmark: boolean[];
-  Data: MovieData[]; // Define Data prop
+  toggleBookmark: (title: string) => void;
+  Data: MovieData[];
 }
 
 const Movie: React.FC<Props> = ({
@@ -42,7 +41,7 @@ const Movie: React.FC<Props> = ({
         const [first, ...rest] = prevData;
         return [...rest, first];
       });
-    }, 5000);
+    }, 1000);
 
     return () => clearInterval(interval);
   }, [Data]);
@@ -92,6 +91,8 @@ const MainDiv = styled.div`
   display: flex;
   flex-direction: column;
   padding: 20px;
+
+  max-width: 100vw;
   gap: 20px;
   p {
     color: var(--Pure-White, #fff);

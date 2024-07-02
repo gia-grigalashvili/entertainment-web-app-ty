@@ -4,6 +4,7 @@ import MoviesIcon from "/public/assets/icon-nav-movies.svg";
 import SeriesIcon from "/public/assets/icon-nav-tv-series.svg";
 import bookmarkempty from "/public/assets/icon-bookmark-empty.svg";
 import bookmarkfull from "/public/assets/icon-bookmark-full.svg";
+import Play from "/public/assets/icon-play.svg";
 
 interface MOVElibraryProps {
   category: string;
@@ -11,7 +12,7 @@ interface MOVElibraryProps {
     title: string;
     year: number;
     category: string;
-    rating: number;
+    rating: string;
     isBookmarked: boolean;
     thumbnail?: {
       regular: {
@@ -34,6 +35,7 @@ const MOVElibrary: React.FC<MOVElibraryProps> = ({
         {Moviedata.map((item) => (
           <div key={item.title}>
             <MovieDiv backgroundImage={item.thumbnail?.regular?.small}>
+              <div className="overlay"></div>
               <div
                 onClick={() => toggleBookmark(item.title)}
                 className="bookmark"
@@ -43,7 +45,12 @@ const MOVElibrary: React.FC<MOVElibraryProps> = ({
                   alt=""
                 />
               </div>
+              <div className="played">
+                <img src={Play} alt="Play icon" />
+                <span>Play</span>
+              </div>
             </MovieDiv>
+
             <Information>
               <p>{item.year}</p>
               <img
@@ -105,23 +112,38 @@ const MovieGrid = styled.div`
 const MovieDiv = styled.div<{ backgroundImage?: string }>`
   width: 144px;
   height: 110px;
-
+  cursor: pointer;
   background-image: url(${(props) => props.backgroundImage});
   background-size: cover;
   background-position: center;
   border-radius: 8px;
   position: relative;
   color: #fff;
+
   @media (min-width: 750px) {
     width: 240px;
     padding-top: 10px;
     height: 150px;
   }
   @media (min-width: 1440px) {
-    width: 320px;
+    width: 344px;
     padding-top: 10px;
-    height: 170px;
+    height: 190px;
   }
+
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transition: background-color 0.3s ease;
+  }
+
+  &:hover .overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
   .bookmark {
     position: absolute;
     top: 10px;
@@ -133,7 +155,7 @@ const MovieDiv = styled.div<{ backgroundImage?: string }>`
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer; /* Add cursor pointer to indicate clickable */
+    cursor: pointer;
     img {
       width: 10px;
       height: 10px;
@@ -142,6 +164,32 @@ const MovieDiv = styled.div<{ backgroundImage?: string }>`
       width: 32px;
       height: 32px;
     }
+  }
+
+  .played {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    align-items: center;
+    gap: 10px;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 20px;
+    padding: 10px 20px;
+    img {
+      width: 20px;
+      height: 20px;
+    }
+    span {
+      color: white;
+      font-family: Outfit;
+      font-size: 14px;
+    }
+  }
+
+  &:hover .played {
+    display: flex;
   }
 `;
 
