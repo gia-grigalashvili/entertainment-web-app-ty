@@ -124,7 +124,9 @@ const LoginMain = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
+  @media (min-width: 1440px) {
+    margin-top: 200px;
+  }
   img {
     width: 32px;
     height: 25.6px;
